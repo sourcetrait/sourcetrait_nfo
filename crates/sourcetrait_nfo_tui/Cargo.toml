@@ -1,0 +1,20 @@
+[package]
+name = "sourcetrait_nfo_tui"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "tnfo: read-only ratatui markdown viewer"
+categories = []
+
+[[bin]]
+name = "nfo"
+path = "src/main.rs"
+
+[dependencies]
+ratatui.workspace = true
+arboard.workspace = true
+snafu.workspace = true
+sourcetrait_nfo_lib.workspace = true

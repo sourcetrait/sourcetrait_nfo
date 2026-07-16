@@ -1,0 +1,20 @@
+[package]
+name = "sourcetrait_nfo_srv"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "dnfo: read-only markdown service"
+categories = []
+
+[[bin]]
+name = "srv_nfo"
+path = "src/main.rs"
+
+[dependencies]
+axum.workspace = true
+tokio.workspace = true
+snafu.workspace = true
+sourcetrait_nfo_lib.workspace = true

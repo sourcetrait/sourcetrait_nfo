@@ -1,0 +1,27 @@
+# nfo default configuration.
+#
+# `nfout -c defaults` regenerates a copy of this file at
+# $XDG_CONFIG_HOME/sourcetrait/nfo/profile/defaults/nfo.toml so you can view the
+# hard-coded defaults. Copy it (or any profile) and edit to taste; user values
+# are merged on top of these defaults.
+
+# The active theme: "defaults" (built-in) or "author/name" (selects a
+# theme/<author>/<name>.toml). Color themes load in a later slice; the key is
+# set now so the default is explicit.
+theme = "defaults"
+
+[render]
+# When to print the author's link reference definitions ([label]: url) at the
+# bottom of the output:
+#   always - list every definition
+#   unused - list only definitions that no link references (orphans)  [default]
+#   never  - never list them
+reference = "unused"
+
+[wrap]
+# Wrap band, in columns. A line fills until it exceeds `min`, then wraps on the
+# next token; `max` is the hard ceiling a line never crosses. Both are capped by
+# the terminal width. The default sets both to 80: a plain hard wrap at 80, no
+# grace band (set max > min to allow a token to overhang up to max).
+min = 80
+max = 80

@@ -1,0 +1,19 @@
+[package]
+name = "sourcetrait_nfo_gui"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "gnfo: read-only iced markdown viewer"
+categories = []
+
+[[bin]]
+name = "gui_nfo"
+path = "src/main.rs"
+
+[dependencies]
+iced.workspace = true
+snafu.workspace = true
+sourcetrait_nfo_lib.workspace = true

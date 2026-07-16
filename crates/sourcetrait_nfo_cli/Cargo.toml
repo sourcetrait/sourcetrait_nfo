@@ -1,0 +1,20 @@
+[package]
+name = "sourcetrait_nfo_cli"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "nfo: read-only pretty markdown cat"
+categories = []
+
+[[bin]]
+name = "nfout"
+path = "src/main.rs"
+
+[dependencies]
+clap.workspace = true
+snafu.workspace = true
+sourcetrait_nfo_lib.workspace = true
+terminal_size.workspace = true

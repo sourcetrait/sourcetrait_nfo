@@ -1,0 +1,40 @@
+[workspace]
+resolver = "3"
+members = [
+  "crates/sourcetrait_nfo_lib",
+  "crates/sourcetrait_nfo_cli",
+  "crates/sourcetrait_nfo_tui",
+  "crates/sourcetrait_nfo_gui",
+  "crates/sourcetrait_nfo_wui",
+  "crates/sourcetrait_nfo_srv",
+  "crates/sourcetrait_nfo_mdbook",
+]
+
+[workspace.package]
+edition = "2024"
+version = "0.0.0-14"
+license = "AGPL-3.0-or-later"
+authors = ["SourceTrait <development@sourcetrait.com>"]
+repository = "https://github.com/sourcetrait/sourcetrait_nfo"
+homepage = "https://sourcetrait.com"
+
+[workspace.dependencies]
+arboard = "3"
+axum = "0.8"
+clap = { version = "4", features = ["derive"] }
+iced = "0.14"
+js-sys = "0.3"
+liquid = "0.26"
+mdbook-preprocessor = "0.5"
+pulldown-cmark = "0.13"
+ratatui = "0.30"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+snafu = "0.9"
+sourcetrait_nfo_lib = { path = "crates/sourcetrait_nfo_lib" }
+terminal_size = "0.4"
+tokio = { version = "1", features = ["full"] }
+toml = "1"
+wasm-bindgen = "0.2"
+web-sys = "0.3"
+zip = "8"

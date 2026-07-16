@@ -1,0 +1,82 @@
+# nfo default theme (glow-ish).
+#
+# `nfout -c defaults` regenerates a copy of this at
+# $XDG_CONFIG_HOME/sourcetrait/nfo/theme/defaults.toml. Copy it and edit to
+# taste, then select it with `theme = "<name>"` in nfo.toml.
+#
+# Terms are dot-walk and cascade: `all` -> a group -> a specific term
+# (e.g. header -> header.1). Each term:
+#   fg / bg = [r, g, b]   (0-255)
+#   style   = any of: italic, bold, underline, strikethru
+#   margin  = [left, right] (len 2, chars) or [top, right, bottom, left] (len 4)
+# A term's `md` sub-table styles the element's own markdown markup (the "# " on
+# a heading): `md.render` (bool) shows it, `md.fg`/`md.bg`/`md.style` style it;
+# `md.render` is implied true when any `md.*` style is set. A code fence splits
+# into `md.fence` (the delimiter) and `md.info` (the language). This default
+# renders markup for headings, code blocks, and unable links.
+#
+# The `[body]` section is the document layout: margin (top/bottom = blank-line
+# counts, left/right = character counts) and justify. The cli always
+# left-justifies, so `right` is ignored.
+
+[body]
+margin = [1, 0, 1, 2]
+justify = "left"
+
+[all]
+md.render = false
+
+[header]
+fg = [97, 175, 239]
+style = ["bold"]
+md.render = true
+
+[blockquote]
+fg = [92, 99, 112]
+style = ["italic"]
+
+[code]
+fg = [152, 195, 121]
+margin = [0, 0]
+content.margin = [1, 0]
+md.render = true
+md.fence.fg = [229, 192, 123]
+md.info.fg = [216, 111, 58]
+
+[codespan]
+fg = [224, 108, 117]
+
+[bold]
+style = ["bold"]
+
+[italic]
+style = ["italic"]
+
+[strikethru]
+style = ["strikethru"]
+
+[link]
+fg = [97, 175, 239]
+style = ["underline"]
+
+[unable.link]
+md.render = true
+
+[unable.link.text]
+fg = [97, 175, 239]
+style = ["underline"]
+
+[unable.link.dest]
+fg = [92, 99, 112]
+style = ["italic"]
+margin = [1, 0]   # chars: [left, right]
+
+[reference]
+fg = [97, 175, 239]
+
+[list]
+fg = [198, 120, 221]
+style = ["bold"]
+
+[rule]
+fg = [92, 99, 112]
