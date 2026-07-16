@@ -13,7 +13,7 @@
 # a heading): `md.render` (bool) shows it, `md.fg`/`md.bg`/`md.style` style it;
 # `md.render` is implied true when any `md.*` style is set. A code fence splits
 # into `md.fence` (the delimiter) and `md.info` (the language). This default
-# renders markup for headings, code blocks, and unable links.
+# renders markup for headings, code blocks, blockquotes (`>`), and unable links.
 #
 # The `[body]` section is the document layout: margin (top/bottom = blank-line
 # counts, left/right = character counts) and justify. The cli always
@@ -34,6 +34,8 @@ md.render = true
 [blockquote]
 fg = [92, 99, 112]
 style = ["italic"]
+md.render = true
+margin = [-1, 0, 0, 0]
 
 [code]
 fg = [152, 195, 121]
@@ -64,7 +66,6 @@ md.render = true
 
 [unable.link.text]
 fg = [97, 175, 239]
-style = ["underline"]
 
 [unable.link.dest]
 fg = [92, 99, 112]

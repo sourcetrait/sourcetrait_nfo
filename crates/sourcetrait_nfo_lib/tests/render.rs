@@ -2,19 +2,38 @@
 
 use sourcetrait_nfo_lib::{render_markdown_ansi, ComponentKind, Config};
 
-/// Strip ANSI SGR sequences so we can assert on text.
+/// Strip ANSI SGR sequences AND OSC 8 hyperlinks so we can assert on text.
 fn plain(s: &str) -> String {
     let mut out = String::new();
-    let mut chars = s.chars();
+    let mut chars = s.chars().peekable();
     while let Some(c) = chars.next() {
-        if c == '\u{1b}' {
-            for c2 in chars.by_ref() {
-                if c2.is_ascii_alphabetic() {
-                    break;
+        if c != '\u{1b}' {
+            out.push(c);
+            continue;
+        }
+        match chars.peek() {
+            // OSC (e.g. OSC 8 hyperlink): consume through ST (ESC \) or BEL.
+            Some(']') => {
+                while let Some(c2) = chars.next() {
+                    if c2 == '\u{7}' {
+                        break;
+                    }
+                    if c2 == '\u{1b}' {
+                        if chars.peek() == Some(&'\\') {
+                            chars.next();
+                        }
+                        break;
+                    }
                 }
             }
-        } else {
-            out.push(c);
+            // CSI/SGR: consume through the alphabetic final byte.
+            _ => {
+                for c2 in chars.by_ref() {
+                    if c2.is_ascii_alphabetic() {
+                        break;
+                    }
+                }
+            }
         }
     }
     out
@@ -103,11 +122,29 @@ fn cli_marks_local_links_unable_and_inlines_the_dest() {
 }
 
 #[test]
-fn cli_leaves_remote_links_bare() {
-    // Remote links stay able (OSC 8 is a later slice); their dest is not inlined.
+fn cli_remote_link_text_only_no_inline_dest() {
+    // A remote link is able -> an OSC 8 hyperlink (stripped here); the plain text
+    // is just the link text, with no inline `(dest)`.
     let out = render("", "See [the site](https://example.com).\n");
     assert!(out.contains("the site"), "link text kept:\n{out}");
     assert!(!out.contains("(https://example.com)"), "remote dest not inlined:\n{out}");
+}
+
+#[test]
+fn cli_remote_link_emits_osc8_hyperlink() {
+    // Able (remote) link -> its text is wrapped in an OSC 8 hyperlink to dest.
+    let cfg = Config::from_toml("").expect("valid config");
+    let raw = render_markdown_ansi("See [the site](https://example.com).\n", 80, &cfg, ComponentKind::Cli);
+    assert!(raw.contains("\u{1b}]8;;https://example.com\u{1b}\\"), "osc8 open:\n{raw:?}");
+    assert!(raw.contains("\u{1b}]8;;\u{1b}\\"), "osc8 close:\n{raw:?}");
+}
+
+#[test]
+fn cli_local_link_no_osc8() {
+    // A local link is Unable -> no OSC 8; the dest is surfaced inline instead.
+    let cfg = Config::from_toml("").expect("valid config");
+    let raw = render_markdown_ansi("See [the guide](docs/guide.md).\n", 80, &cfg, ComponentKind::Cli);
+    assert!(!raw.contains("\u{1b}]8;;"), "no osc8 for a local (Unable) link:\n{raw:?}");
 }
 
 #[test]

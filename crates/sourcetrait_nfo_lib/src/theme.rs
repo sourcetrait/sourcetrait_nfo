@@ -53,10 +53,10 @@ impl Style {
 /// `margin = [top, right, bottom, left]` (len 4).
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub(crate) struct Margin {
-    pub(crate) top: usize,
-    pub(crate) right: usize,
-    pub(crate) bottom: usize,
-    pub(crate) left: usize,
+    pub(crate) top: isize,
+    pub(crate) right: isize,
+    pub(crate) bottom: isize,
+    pub(crate) left: isize,
 }
 
 /// A rendered element; each maps to a theme term chain the resolver cascades.
@@ -284,7 +284,7 @@ fn has_any_style(node: &toml::Table) -> bool {
 /// left]` (len 4), non-negative.
 fn read_margin(node: &toml::Table) -> Option<Margin> {
     let a = node.get("margin")?.as_array()?;
-    let n = |i: usize| a[i].as_integer().filter(|v| *v >= 0).map(|v| v as usize);
+    let n = |i: usize| a[i].as_integer().map(|v| v as isize);
     match a.len() {
         2 => Some(Margin { left: n(0)?, right: n(1)?, ..Margin::default() }),
         4 => Some(Margin { top: n(0)?, right: n(1)?, bottom: n(2)?, left: n(3)? }),
