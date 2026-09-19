@@ -1,4 +1,4 @@
-use crate::*;
+use sourcetrait_nfo_lib::*;
 
 /// A fresh, unique temp directory (no external tempfile dep).
 fn temp_dir() -> std::path::PathBuf {
@@ -92,7 +92,7 @@ fn md_render_on_shows_inline_markers() {
     std::fs::write(root.join("theme").join("defaults.toml"), "[all]\nmd.render = true\n").unwrap();
 
     let cfg = Config::load_from(&root, None).unwrap();
-    let out = render_markdown_ansi("**b** ~~s~~\n", 40, &cfg, ComponentKind::Cli);
+    let out = render_markdown_ansi("**b** ~~s~~\n", 40, &cfg, NfoSuite::Cli);
     assert!(out.contains("**"), "strong markers with md on:\n{out}");
     assert!(out.contains("~~"), "strikethrough markers with md on:\n{out}");
 
@@ -124,7 +124,7 @@ fn plain_dark_profile_renders_raw_white_on_black() {
     .unwrap();
 
     let cfg = Config::load_from(&root, Some("plain_dark")).unwrap();
-    let raw = render_markdown_ansi("# Hi\n\n[r]: x.md\n", 40, &cfg, ComponentKind::Cli);
+    let raw = render_markdown_ansi("# Hi\n\n[r]: x.md\n", 40, &cfg, NfoSuite::Cli);
 
     // Every run is white (255,255,255) on black (0,0,0): the `#` markup (via
     // md.render), the heading text, and the always-listed reference. Body margin

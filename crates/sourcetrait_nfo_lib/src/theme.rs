@@ -1,8 +1,8 @@
-use crate::component::ComponentKind;
+use crate::component::NfoSuite;
 
 /// The embedded default theme - the built-in glow-ish palette + the template
 /// `nfout -c defaults` writes to `theme/defaults.toml`.
-pub(crate) const DEFAULT_THEME_TOML: &str = include_str!("default_theme.toml");
+pub(crate) const DEFAULT_THEME_TOML: &str = include_str!("../assets/default_theme.toml");
 
 /// An 8-bit-per-channel RGB color (internal render form).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -129,7 +129,7 @@ impl Element {
 /// link), `Never` none.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Deserialize)]
 #[serde(rename_all = "lowercase")]
-pub(crate) enum ReferenceMode {
+pub enum ReferenceMode {
     Always,
     Unused,
     Never,
@@ -141,7 +141,7 @@ pub(crate) enum ReferenceMode {
 pub(crate) struct Theme {
     pub(crate) reference: ReferenceMode,
     pub(crate) palette: toml::Table,
-    pub(crate) kind: ComponentKind,
+    pub(crate) kind: NfoSuite,
 }
 
 impl Theme {

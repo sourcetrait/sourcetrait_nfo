@@ -1,13 +1,12 @@
 [package]
-name = "sourcetrait_nfo_wui"
+name = "sourcetrait_nfo_wasm"
+description = "Enhanced markdown WASM library"
 edition.workspace = true
 version.workspace = true
 license.workspace = true
 authors.workspace = true
 repository.workspace = true
 homepage.workspace = true
-description = "wnfo: read-only wasm/web markdown viewer"
-categories = []
 
 [lib]
 crate-type = ["cdylib"]

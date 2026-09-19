@@ -1,13 +1,12 @@
 [workspace]
 resolver = "3"
 members = [
-  "crates/sourcetrait_nfo_lib",
+  "crates/sourcetrait_nfo_book",
   "crates/sourcetrait_nfo_cli",
-  "crates/sourcetrait_nfo_tui",
   "crates/sourcetrait_nfo_gui",
-  "crates/sourcetrait_nfo_wui",
-  "crates/sourcetrait_nfo_srv",
-  "crates/sourcetrait_nfo_mdbook",
+  "crates/sourcetrait_nfo_lib",
+  "crates/sourcetrait_nfo_tui",
+  "crates/sourcetrait_nfo_wasm",
 ]
 
 [workspace.package]
@@ -31,10 +30,11 @@ ratatui = "0.30"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 snafu = "0.9"
-sourcetrait_nfo_lib = { path = "crates/sourcetrait_nfo_lib" }
 terminal_size = "0.4"
 tokio = { version = "1", features = ["full"] }
 toml = "1"
 wasm-bindgen = "0.2"
 web-sys = "0.3"
 zip = "8"
+
+sourcetrait_nfo_lib = { path = "crates/sourcetrait_nfo_lib" }

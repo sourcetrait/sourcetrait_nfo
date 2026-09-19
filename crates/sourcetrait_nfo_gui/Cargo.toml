@@ -1,16 +1,15 @@
 [package]
 name = "sourcetrait_nfo_gui"
+description = "Enhanced markdown reader GUI"
 edition.workspace = true
 version.workspace = true
 license.workspace = true
 authors.workspace = true
 repository.workspace = true
 homepage.workspace = true
-description = "gnfo: read-only iced markdown viewer"
-categories = []
 
 [[bin]]
-name = "gui_nfo"
+name = "gnfo"
 path = "src/main.rs"
 
 [dependencies]

@@ -2,18 +2,18 @@ use crate::*;
 
 /// The embedded default config - the single source of truth for the config
 /// defaults, and the `-c defaults` template for `profile/defaults/nfo.toml`.
-const DEFAULT_TOML: &str = include_str!("default.toml");
+const DEFAULT_TOML: &str = include_str!("../assets/default.toml");
 
 /// The nfo configuration: the selected theme name, the `[render]` toggles, and
 /// the resolved palette (loaded from `theme/<theme>.toml`).
 #[derive(Clone, Debug, serde::Deserialize)]
 pub struct Config {
     #[serde(default = "default_theme_name")]
-    pub(crate) theme: String,
-    pub(crate) render: RenderConfig,
-    pub(crate) wrap: WrapConfig,
+    pub theme: String,
+    pub render: RenderConfig,
+    pub wrap: WrapConfig,
     #[serde(skip, default = "default_palette")]
-    pub(crate) palette: toml::Table,
+    pub palette: toml::Table,
 }
 
 fn default_theme_name() -> String {
@@ -22,16 +22,16 @@ fn default_theme_name() -> String {
 
 /// The `[render]` section - the config contract (only these options exist).
 #[derive(Clone, Debug, serde::Deserialize)]
-pub(crate) struct RenderConfig {
-    pub(crate) reference: ReferenceMode,
+pub struct RenderConfig {
+    pub reference: ReferenceMode,
 }
 
 /// The `[wrap]` section - the wrap band in columns. Wrap once a line exceeds
 /// `min` (on the next token); never exceed `max` (the hard ceiling).
 #[derive(Clone, Debug, serde::Deserialize)]
-pub(crate) struct WrapConfig {
-    pub(crate) min: usize,
-    pub(crate) max: usize,
+pub struct WrapConfig {
+    pub min: usize,
+    pub max: usize,
 }
 
 impl Config {
@@ -57,7 +57,7 @@ impl Config {
     }
 
     /// `load`, rooted at an explicit config dir (the seam behind `load`).
-    pub(crate) fn load_from(root: &std::path::Path, profile: Option<&str>) -> LibResult<Config> {
+    pub fn load_from(root: &std::path::Path, profile: Option<&str>) -> LibResult<Config> {
         let dir = match profile {
             Some(p) => root.join("profile").join(p),
             None => root.to_path_buf(),
@@ -85,13 +85,13 @@ impl Config {
     }
 
     /// `write_defaults`, rooted at an explicit config dir (the seam).
-    pub(crate) fn write_defaults_to(root: &std::path::Path) -> LibResult<Vec<std::path::PathBuf>> {
-        let pdir = root.join("profile").join("defaults");
+    pub fn write_defaults_to(dir: &std::path::Path) -> LibResult<Vec<std::path::PathBuf>> {
+        let pdir = dir.join("profile").join("defaults");
         std::fs::create_dir_all(&pdir).context(ConfigIoSnafu { path: pdir.clone() })?;
         let cfg_path = pdir.join("nfo.toml");
         std::fs::write(&cfg_path, DEFAULT_TOML).context(ConfigIoSnafu { path: cfg_path.clone() })?;
 
-        let tdir = root.join("theme");
+        let tdir = dir.join("theme");
         std::fs::create_dir_all(&tdir).context(ConfigIoSnafu { path: tdir.clone() })?;
         let theme_path = tdir.join("defaults.toml");
         std::fs::write(&theme_path, DEFAULT_THEME_TOML)

@@ -1,16 +1,15 @@
 [package]
 name = "sourcetrait_nfo_cli"
+description = "Displays enhanced markdown"
 edition.workspace = true
 version.workspace = true
 license.workspace = true
 authors.workspace = true
 repository.workspace = true
 homepage.workspace = true
-description = "nfo: read-only pretty markdown cat"
-categories = []
 
 [[bin]]
-name = "nfout"
+name = "pnfo"
 path = "src/main.rs"
 
 [dependencies]

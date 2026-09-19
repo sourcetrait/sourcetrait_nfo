@@ -3,22 +3,15 @@
 /// notably which links are `Unable` (see `marks_unable`), and later which get
 /// OSC 8 hyperlinks.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum ComponentKind {
-    /// `nfout` - the read-only terminal pretty-printer.
+pub enum NfoSuite {
+    Book,
     Cli,
-    /// `nfo` - the interactive terminal UI.
-    Tui,
-    /// The iced desktop UI.
     Gui,
-    /// The servo-backed web UI.
-    Wui,
-    /// The axum HTTP server.
-    Srv,
-    /// The mdbook preprocessor.
-    Mdbook,
+    Tui,
+    Wasm,
 }
 
-impl ComponentKind {
+impl NfoSuite {
     /// Whether this component must treat a link to `dest` as `Unable` - one it
     /// cannot (or will not) emit as a live OSC 8 hyperlink, so the renderer
     /// surfaces the destination inline instead. A non-interactive terminal
@@ -27,7 +20,7 @@ impl ComponentKind {
     /// not have that problem.
     pub(crate) fn marks_unable(&self, dest: &str) -> bool {
         match self {
-            ComponentKind::Cli => is_local(dest),
+            NfoSuite::Cli => is_local(dest),
             _ => false,
         }
     }

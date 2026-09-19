@@ -1,16 +1,15 @@
 [package]
-name = "sourcetrait_nfo_mdbook"
+name = "sourcetrait_nfo_book"
+description = "Enhanced markdown book generator"
 edition.workspace = true
 version.workspace = true
 license.workspace = true
 authors.workspace = true
 repository.workspace = true
 homepage.workspace = true
-description = "mdbook-srctrait-nfo: nfo mdBook preprocessor"
-categories = []
 
 [[bin]]
-name = "mdbook-srctrait-nfo"
+name = "nfobook"
 path = "src/main.rs"
 
 [dependencies]

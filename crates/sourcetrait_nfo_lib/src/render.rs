@@ -7,7 +7,7 @@ pub fn render_markdown_ansi(
     markdown: &str,
     width: usize,
     config: &Config,
-    kind: ComponentKind,
+    kind: NfoSuite,
 ) -> String {
     let theme = Theme {
         reference: config.render.reference,

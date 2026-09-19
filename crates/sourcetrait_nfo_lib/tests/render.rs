@@ -1,6 +1,4 @@
-//! Integration tests over the public render + config surface.
-
-use sourcetrait_nfo_lib::{render_markdown_ansi, ComponentKind, Config};
+use sourcetrait_nfo_lib::*;
 
 /// Strip ANSI SGR sequences AND OSC 8 hyperlinks so we can assert on text.
 fn plain(s: &str) -> String {
@@ -44,7 +42,7 @@ const DOC: &str = "This [link] gets referenced.\n\n[link]: foo/bar.md\n[other]: 
 
 fn render(config_toml: &str, md: &str) -> String {
     let cfg = Config::from_toml(config_toml).expect("valid config");
-    plain(&render_markdown_ansi(md, 80, &cfg, ComponentKind::Cli))
+    plain(&render_markdown_ansi(md, 80, &cfg, NfoSuite::Cli))
 }
 
 #[test]
@@ -134,7 +132,7 @@ fn cli_remote_link_text_only_no_inline_dest() {
 fn cli_remote_link_emits_osc8_hyperlink() {
     // Able (remote) link -> its text is wrapped in an OSC 8 hyperlink to dest.
     let cfg = Config::from_toml("").expect("valid config");
-    let raw = render_markdown_ansi("See [the site](https://example.com).\n", 80, &cfg, ComponentKind::Cli);
+    let raw = render_markdown_ansi("See [the site](https://example.com).\n", 80, &cfg, NfoSuite::Cli);
     assert!(raw.contains("\u{1b}]8;;https://example.com\u{1b}\\"), "osc8 open:\n{raw:?}");
     assert!(raw.contains("\u{1b}]8;;\u{1b}\\"), "osc8 close:\n{raw:?}");
 }
@@ -143,7 +141,7 @@ fn cli_remote_link_emits_osc8_hyperlink() {
 fn cli_local_link_no_osc8() {
     // A local link is Unable -> no OSC 8; the dest is surfaced inline instead.
     let cfg = Config::from_toml("").expect("valid config");
-    let raw = render_markdown_ansi("See [the guide](docs/guide.md).\n", 80, &cfg, ComponentKind::Cli);
+    let raw = render_markdown_ansi("See [the guide](docs/guide.md).\n", 80, &cfg, NfoSuite::Cli);
     assert!(!raw.contains("\u{1b}]8;;"), "no osc8 for a local (Unable) link:\n{raw:?}");
 }
 

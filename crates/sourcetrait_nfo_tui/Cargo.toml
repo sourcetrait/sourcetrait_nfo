@@ -1,13 +1,12 @@
 [package]
 name = "sourcetrait_nfo_tui"
+description = "Enhanced markdown reader TUI"
 edition.workspace = true
 version.workspace = true
 license.workspace = true
 authors.workspace = true
 repository.workspace = true
 homepage.workspace = true
-description = "tnfo: read-only ratatui markdown viewer"
-categories = []
 
 [[bin]]
 name = "nfo"
